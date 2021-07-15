@@ -24,5 +24,14 @@ namespace MiniShop.Controllers
         {
             return await _context.Brands.ToListAsync();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Brand>> GetBrand(int id)
+        {
+            var brand = await _context.Brands.FindAsync(id);
+            if (brand == null)
+                return NotFound();
+            return brand;
+        }
     }
 }
