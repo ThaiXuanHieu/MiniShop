@@ -31,7 +31,16 @@ namespace MiniShop.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Select(x => new Product
+            {
+                Id = x.Id,
+                Name = x.Name,
+                OriginalPrice = x.OriginalPrice,
+                Price = x.Price,
+                Description = x.Description,
+                BrandId = x.BrandId,
+                ProductImages = _context.ProductImages.Where(pi => pi.ProductId == x.Id).ToList(),
+            }).ToListAsync();
         }
 
         [HttpGet("{id}")]

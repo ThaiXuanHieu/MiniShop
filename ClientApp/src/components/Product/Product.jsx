@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -9,41 +10,53 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-
+import { showAlert } from "../../store/app-slice";
 const useStyles = makeStyles({
   media: {
     height: 220,
   },
 });
 
-export default function MediaCard() {
+const Product = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { product } = props;
 
+  const handleAddToCart = () => {
+    dispatch(
+      showAlert({ open: true, message: "Added to cart", level: "success" })
+    );
+  };
   return (
     <Card>
       <CardMedia
         component={Link}
         to="/detail"
         className={classes.media}
-        image="https://product.hstatic.net/1000230642/product/01_e07b5f71bd82468da19d879d25014315_1024x1024.jpg"
-        title="Contemplative Reptile"
+        image={`https://localhost:5001${product.productImages[0].imageUrl}`}
+        title={product.name}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
-          Biti's Hunter Street x VietMax
+          {product.name}
         </Typography>
         <Typography gutterBottom variant="h5" component="h2">
-          990.000 VND
+          {product.price} ₫
         </Typography>
       </CardContent>
       <CardActions>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          aria-label="add to favorites"
+          onClick={handleAddToCart}
+        >
           <ShoppingCartIcon />
         </IconButton>
       </CardActions>
     </Card>
   );
-}
+};
+
+export default Product;

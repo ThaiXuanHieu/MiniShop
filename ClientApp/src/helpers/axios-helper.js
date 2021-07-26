@@ -1,31 +1,30 @@
 import axios from "axios";
-
-const baseUrl = "https://localhost:5001";
+import { BASE_URL } from "../utils/constants";
 
 export const getAsync = async (url) => {
   const headers = await getHeaders();
-  return axios.get(baseUrl + url, { headers });
+  return axios.get(BASE_URL + url, { headers });
 };
 
 export const postAsync = async (url, model) => {
   const headers = await getHeaders();
-  return axios.post(baseUrl + url, model, { headers });
+  return axios.post(BASE_URL + url, model, { headers });
 };
 
 export const putAsync = async (url, model) => {
   const headers = await getHeaders();
-  return axios.put(baseUrl + url, model, { headers });
+  return axios.put(BASE_URL + url, model, { headers });
 };
 
 export const deleteAsync = async (url) => {
   const headers = await getHeaders();
-  return axios.delete(baseUrl + url, { headers });
+  return axios.delete(BASE_URL + url, { headers });
 };
 
 const getTokenAsync = async () => {
   let token;
   await axios
-    .post(baseUrl + "/api/Users/login", {
+    .post(BASE_URL + "/api/Users/login", {
       email: "thaixuanhieu300698@gmail.com",
       password: "Abc@123",
       rememberMe: true,
@@ -44,6 +43,6 @@ const getHeaders = async () => {
   var token = await getTokenAsync();
   return {
     Accept: "application/json",
-    Authorization: "Bearer " + token,
+    Authorization: `Bearer ${token}`,
   };
 };

@@ -64,7 +64,8 @@ namespace MiniShop.Controllers
 
             return Ok(new LoginResponse()
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                user = user
             });
         }
     }

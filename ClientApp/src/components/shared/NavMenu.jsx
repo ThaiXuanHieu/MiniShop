@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { alpha, makeStyles, createStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,10 +11,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchBox from "../shared/SearchBox";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-
+import Avatar from "@material-ui/core/Avatar";
+import { selectIsAuthenticated, selectUser } from "../../store/auth-slice";
+import { logout } from "../../store/auth-slice";
 const useStyles = makeStyles((theme) =>
   createStyles({
     grow: {
@@ -84,6 +86,11 @@ export default function NavMenu() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {}, []);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  console.log(isAuthenticated);
+  const userName = useSelector(selectUser)?.userName;
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -105,6 +112,11 @@ export default function NavMenu() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    handleMenuClose();
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -116,9 +128,8 @@ export default function NavMenu() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -153,7 +164,7 @@ export default function NavMenu() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar alt="H" src="" />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -172,27 +183,48 @@ export default function NavMenu() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component={Link} to="/" className={classes.title} variant="h6" color="inherit" noWrap>
+          <Typography
+            component={Link}
+            to="/"
+            className={classes.title}
+            variant="h6"
+            color="inherit"
+            noWrap
+          >
             Mini Shop
           </Typography>
           <SearchBox />
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton component={Link} to="/cart" aria-label="show 4 new mails" color="inherit">
+            <IconButton
+              component={Link}
+              to="/cart"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
               <Badge badgeContent={4} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {isAuthenticated ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <Avatar>{userName}</Avatar>
+              </IconButton>
+            ) : (
+              <Link
+                to="/login"
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                Login
+              </Link>
+            )}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
