@@ -23,7 +23,7 @@ const Alert = (props) => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(showAlert({ open: false, message: "", level: "" }));
+    dispatch(showAlert({ open: false, message: message, level: level }));
   };
 
   return (

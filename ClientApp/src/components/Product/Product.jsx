@@ -11,6 +11,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { showAlert } from "../../store/app-slice";
+import { formatCurrency } from "../../utils/formatCurrency";
+
 const useStyles = makeStyles({
   media: {
     height: 220,
@@ -31,7 +33,7 @@ const Product = (props) => {
     <Card>
       <CardMedia
         component={Link}
-        to="/detail"
+        to={ `/products/${product.id}`}
         className={classes.media}
         image={`https://localhost:5001${product.productImages[0].imageUrl}`}
         title={product.name}
@@ -41,7 +43,7 @@ const Product = (props) => {
           {product.name}
         </Typography>
         <Typography gutterBottom variant="h5" component="h2">
-          {product.price} ₫
+          {formatCurrency(product.price)} ₫
         </Typography>
       </CardContent>
       <CardActions>

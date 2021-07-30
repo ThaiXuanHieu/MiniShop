@@ -11,7 +11,7 @@ const Router = () => {
       <Route path="/" exact component={Products} />
       <Route path="/cart" exact component={Cart} />
       <Route path="/login" exact component={LoginForm} />
-      <Route path="/detail" exact component={Detail} />
+      <Route path="/products/:id" exact component={Detail} />
     </Switch>
   );
 };

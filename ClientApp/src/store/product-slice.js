@@ -30,8 +30,13 @@ export const productSlice = createSlice({
       state.products = payload;
     },
 
+    fetchProductSuccess: (state, { payload }) => {
+      state.product = payload;
+    },
+
     fetchProductById: (state, { payload }) => {
       let product = state.products.find((p) => p.id === payload);
+      state.product.id = product.id;
       state.product.name = product.name;
       state.product.originalPrice = product.originalPrice;
       state.product.price = product.price;
@@ -70,6 +75,7 @@ export const productSlice = createSlice({
 export const {
   initProduct,
   fetchProductsSuccess,
+  fetchProductSuccess,
   fetchProductById,
   setProduct,
 } = productSlice.actions;
@@ -77,6 +83,12 @@ export const {
 export const fetchProducts = () => async (dispatch) => {
   return getAsync("/api/Products").then((res) => {
     dispatch(fetchProductsSuccess(res.data));
+  });
+};
+
+export const fetchProduct = (id) => async (dispatch) => {
+  return getAsync(`/api/Products/${id}`).then((res) => {
+    dispatch(fetchProductSuccess(res.data));
   });
 };
 

@@ -49,6 +49,8 @@ namespace MiniShop.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product == null)
                 return NotFound();
+
+            product.ProductImages = await _context.ProductImages.Where(pi => pi.ProductId == id).ToListAsync();
             return product;
         }
 
