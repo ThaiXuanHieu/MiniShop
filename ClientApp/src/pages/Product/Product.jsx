@@ -11,6 +11,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { showAlert } from "../../store/app-slice";
+import { addItem } from "../../store/cart-slice";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 const useStyles = makeStyles({
@@ -28,12 +29,14 @@ const Product = (props) => {
     dispatch(
       showAlert({ open: true, message: "Added to cart", level: "success" })
     );
+
+    dispatch(addItem({ product, quantity: 1 }));
   };
   return (
     <Card>
       <CardMedia
         component={Link}
-        to={ `/products/${product.id}`}
+        to={`/products/${product.id}`}
         className={classes.media}
         image={`https://localhost:5001${product.productImages[0].imageUrl}`}
         title={product.name}
@@ -50,10 +53,7 @@ const Product = (props) => {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
-        <IconButton
-          aria-label="add to favorites"
-          onClick={handleAddToCart}
-        >
+        <IconButton aria-label="add to favorites" onClick={handleAddToCart}>
           <ShoppingCartIcon />
         </IconButton>
       </CardActions>

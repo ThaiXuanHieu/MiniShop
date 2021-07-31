@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { alpha, makeStyles, createStyles } from "@material-ui/core/styles";
@@ -15,6 +15,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Avatar from "@material-ui/core/Avatar";
 import { selectIsAuthenticated, selectUser } from "../../store/auth-slice";
+import { selectCart } from "../../store/cart-slice";
 import { logout } from "../../store/auth-slice";
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -87,10 +88,10 @@ export default function NavMenu() {
   const [anchorEl, setAnchorEl] = useState();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState();
   const dispatch = useDispatch();
-  useEffect(() => {}, []);
+
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  console.log(isAuthenticated);
   const userName = useSelector(selectUser)?.userName;
+  const cart = useSelector(selectCart);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -202,7 +203,7 @@ export default function NavMenu() {
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={cart.length} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

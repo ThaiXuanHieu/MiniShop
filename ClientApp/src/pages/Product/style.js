@@ -23,7 +23,7 @@ export const ThumbnailImageItem = styled.div`
 `;
 
 export const Info = styled.div`
-  background: linear-gradient(180deg, #f8f7f4, rgba(248, 247, 244, 0));
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 20px;
 `;
 
@@ -46,7 +46,7 @@ export const Button = styled.button`
   font-weight: 700;
 `;
 
-export const ButtonPay = styled(Button)`
+export const ButtonBuy = styled(Button)`
   background: #53c66e;
   color: white;
   border: none;
@@ -54,6 +54,6 @@ export const ButtonPay = styled(Button)`
 
 export const ButtonAddToCart = styled(Button)`
   background: transparent;
-  border: 1px solid black;
+  border: 1px solid rgba(0,0,0,.1);
   color: black;
 `;

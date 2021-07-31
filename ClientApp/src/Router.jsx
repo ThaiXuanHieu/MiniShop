@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Products from "./components/Product/Products";
-import Cart from "./components/Cart/Cart";
-import LoginForm from "./components/Auth/LoginForm";
-import Detail from "./components/Product/Detail";
+import Products from "./pages/Product/Products";
+import Cart from "./pages/Cart/Cart";
+import LoginForm from "./pages/Auth/LoginForm";
+import Detail from "./pages/Product/Detail";
 
 const Router = () => {
   return (

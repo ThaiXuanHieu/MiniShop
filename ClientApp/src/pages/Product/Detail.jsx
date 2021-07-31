@@ -7,6 +7,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Rating from "@material-ui/lab/Rating";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { showAlert } from "../../store/app-slice";
+import { Layout } from "../../components/shared/Layout";
+import { addItem } from "../../store/cart-slice";
 
 const Detail = (props) => {
   let { id } = useParams();
@@ -29,10 +31,12 @@ const Detail = (props) => {
     dispatch(
       showAlert({ open: true, message: "Added to cart", level: "success" })
     );
+
+    dispatch(addItem({ product, quantity: 1 }));
   };
 
   return (
-    <React.Fragment>
+    <Layout title={product.name} description={product.name}>
       <P.Wrapper>
         <P.Col>
           <P.ImageDefault>
@@ -62,14 +66,14 @@ const Detail = (props) => {
               <Rating name="read-only" value={2} readOnly />
             </div>
             <hr />
-            <P.ButtonPay>Pay now</P.ButtonPay>
+            <P.ButtonBuy>Buy now</P.ButtonBuy>
             <P.ButtonAddToCart onClick={handleAddToCart}>
               Add to cart
             </P.ButtonAddToCart>
           </P.Info>
         </P.Col>
       </P.Wrapper>
-    </React.Fragment>
+    </Layout>
   );
 };
 
