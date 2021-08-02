@@ -21,7 +21,7 @@ const Detail = (props) => {
 
   if (!!product && product.id === 0) {
     return (
-      <div className="text-center">
+      <div className="text-center mt-5">
         <CircularProgress />
       </div>
     );
