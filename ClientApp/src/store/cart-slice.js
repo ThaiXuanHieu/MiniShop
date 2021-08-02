@@ -29,12 +29,13 @@ export const cartSlice = createSlice({
         }
       }
       state.totalItem = state.cart.reduce(
-        (prev, next) => prev.quantity + next.quantity
+        (total, currentValue) => total + currentValue.quantity,
+        0
       );
       state.totalPayment = state.cart.reduce(
-        (prev, next) =>
-          prev.quantity * prev.product.price +
-          next.quantity * next.product.price
+        (total, currentValue) =>
+          total + currentValue.quantity * currentValue.product.price,
+        0
       );
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
@@ -45,12 +46,13 @@ export const cartSlice = createSlice({
         : [];
       console.log(state.cart);
       state.totalItem = state.cart.reduce(
-        (prev, next) => prev.quantity + next.quantity
+        (total, currentValue) => total + currentValue.quantity,
+        0
       );
       state.totalPayment = state.cart.reduce(
-        (prev, next) =>
-          prev.quantity * prev.product.price +
-          next.quantity * next.product.price
+        (total, currentValue) =>
+          total + currentValue.quantity * currentValue.product.price,
+        0
       );
     },
 
@@ -59,12 +61,13 @@ export const cartSlice = createSlice({
         (item) => item.product.id !== payload
       );
       state.totalItem = state.cart.reduce(
-        (prev, next) => prev.quantity + next.quantity
+        (total, currentValue) => total + currentValue.quantity,
+        0
       );
       state.totalPayment = state.cart.reduce(
-        (prev, next) =>
-          prev.quantity * prev.product.price +
-          next.quantity * next.product.price
+        (total, currentValue) =>
+          total + currentValue.quantity * currentValue.product.price,
+        0
       );
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
@@ -86,12 +89,13 @@ export const cartSlice = createSlice({
           : item
       );
       state.totalItem = state.cart.reduce(
-        (prev, next) => prev.quantity + next.quantity
+        (total, currentValue) => total + currentValue.quantity,
+        0
       );
       state.totalPayment = state.cart.reduce(
-        (prev, next) =>
-          prev.quantity * prev.product.price +
-          next.quantity * next.product.price
+        (total, currentValue) =>
+          total + currentValue.quantity * currentValue.product.price,
+        0
       );
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
