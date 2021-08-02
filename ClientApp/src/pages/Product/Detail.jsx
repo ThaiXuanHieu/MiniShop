@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProduct, selectProduct } from "../../store/product-slice";
@@ -12,12 +12,21 @@ import { addItem } from "../../store/cart-slice";
 
 const Detail = (props) => {
   let { id } = useParams();
+  const [defaultImage, setDefaultImage] = useState("");
   const dispatch = useDispatch();
+  const product = useSelector(selectProduct);
+
   useEffect(() => {
     dispatch(fetchProduct(id));
   }, [id, dispatch]);
 
-  const product = useSelector(selectProduct);
+  useEffect(() => {
+    if (product.id !== 0) {
+      setDefaultImage(
+        `https://localhost:5001${product.productImages[0].imageUrl}`
+      );
+    }
+  }, [product.id, product.productImages]);
 
   if (!!product && product.id === 0) {
     return (
@@ -35,16 +44,16 @@ const Detail = (props) => {
     dispatch(addItem({ product, quantity: 1 }));
   };
 
+  const handleChangeImage = (e) => {
+    setDefaultImage(e.target.src);
+  };
+
   return (
     <Layout title={product.name} description={product.name}>
       <P.Wrapper>
         <P.Col>
           <P.ImageDefault>
-            <img
-              src={`https://localhost:5001${product.productImages[0].imageUrl}`}
-              alt=""
-              width="100%"
-            />
+            <img src={defaultImage} alt="" width="100%" />
           </P.ImageDefault>
           <P.ThumbnailImages>
             {product.productImages.map((item) => (
@@ -53,6 +62,7 @@ const Detail = (props) => {
                   src={`https://localhost:5001${item.imageUrl}`}
                   alt=""
                   width="100%"
+                  onClick={(e) => handleChangeImage(e)}
                 />
               </P.ThumbnailImageItem>
             ))}
