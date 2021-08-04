@@ -8,6 +8,7 @@ export const authSlide = createSlice({
   reducers: {
     loginSuccess: (state, { payload }) => {
       state.user = payload;
+      console.log(state.user)
     },
     logoutSuccess: (state) => {
       state.user = undefined;
@@ -19,6 +20,7 @@ export const { loginSuccess, logoutSuccess } = authSlide.actions;
 
 export const login = (model) => async (dispatch) => {
   return AuthService.loginAsync(model).then((res) => {
+    console.log("chạy vào slice")
     dispatch(loginSuccess(res.data.user));
   });
 };

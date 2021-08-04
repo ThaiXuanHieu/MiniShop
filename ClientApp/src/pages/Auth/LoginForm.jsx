@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useLocation, useHistory } from "react-router";
 import { Formik, Form, Field } from "formik";
 import {
   Box,
@@ -13,9 +13,12 @@ import { useDispatch } from "react-redux";
 import { login } from "../../store/auth-slice";
 import { Layout } from "../../components/shared/Layout";
 
-const LoginForm = () => {
-  const history = useHistory();
+const LoginForm = (props) => {
   const dispatch = useDispatch();
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+  console.log(from);
   const initialValues = { email: "", password: "", rememberMe: false };
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email address").required("Required"),
@@ -30,10 +33,11 @@ const LoginForm = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
+            setTimeout(async () => {
               setSubmitting(false);
-              dispatch(login(values));
-              history.push("/");
+              await dispatch(login(values));
+              console.log("chạy sau slice");
+              history.replace(from);
             }, 500);
           }}
         >

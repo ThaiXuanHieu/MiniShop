@@ -1,5 +1,5 @@
-import { Button } from "@material-ui/core";
 import React, { useEffect } from "react";
+import Link from "@material-ui/core/Link";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout } from "../../components/shared/Layout";
 import {
@@ -63,9 +63,7 @@ const Cart = () => {
               <b>{formatCurrency(totalPayment)} ₫</b>
             </div>
             <hr />
-            <Button variant="contained" color="primary">
-              Checkout
-            </Button>
+            <Link href="/checkout">Checkout &#8594;</Link>
           </div>
         </div>
       ) : (
