@@ -1,16 +1,16 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../store/auth-slice";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  console.log(isAuthenticated);
+  const user = cookies.get("user");
+  console.log(user);
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated ? (
+        user ? (
           <Component {...props} />
         ) : (
           <Redirect

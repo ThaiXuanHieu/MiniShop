@@ -14,9 +14,10 @@ import SearchBox from "../shared/SearchBox";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Avatar from "@material-ui/core/Avatar";
-import { selectIsAuthenticated, selectUser } from "../../store/auth-slice";
 import { selectCart } from "../../store/cart-slice";
 import { logout } from "../../store/auth-slice";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 const useStyles = makeStyles((theme) =>
   createStyles({
     grow: {
@@ -89,9 +90,7 @@ export default function NavMenu() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState();
   const dispatch = useDispatch();
 
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  console.log(isAuthenticated);
-  const userName = useSelector(selectUser)?.userName;
+  const user = cookies.get("user");
   const cart = useSelector(selectCart);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -208,7 +207,7 @@ export default function NavMenu() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            {isAuthenticated ? (
+            {user ? (
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -218,7 +217,7 @@ export default function NavMenu() {
                 color="inherit"
               >
                 <Avatar
-                  alt={userName}
+                  alt={user.userName}
                   src="https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/134156033_2858568041056016_4719682007731580660_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=2UB18F0VPOcAX-S1DzC&tn=QSwKpq4-CzbaMiO3&_nc_ht=scontent-hkt1-2.xx&oh=4c3d90cbf0e129f3fc92fcbd68848c9a&oe=612C1465"
                 />
               </IconButton>
