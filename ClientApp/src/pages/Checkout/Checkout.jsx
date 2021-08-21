@@ -14,6 +14,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import * as Yup from "yup";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -34,9 +37,10 @@ function getSteps() {
 }
 
 function getStepContent(stepIndex) {
+  const user = cookies.get("user");
   switch (stepIndex) {
     case 0:
-      return <StepOne />;
+      return <StepOne user={user}/>;
     case 1:
       return <StepTwo />;
     case 2:
@@ -49,7 +53,6 @@ function getStepContent(stepIndex) {
 const Checkout = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-
   const steps = getSteps();
 
   const handleNext = () => {
@@ -102,12 +105,13 @@ const Checkout = () => {
 
 export default Checkout;
 
-export const StepOne = () => {
+export const StepOne = (props) => {
+  const {user} = props;
   const initialValues = {
-    fullName: "",
+    fullName: user.user.firstName + " " + user.user.lastName,
     address: "",
-    phoneNumber: "",
-    email: "",
+    phoneNumber: user.user.phoneNumber,
+    email: user.user.email,
   };
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email address").required("Required"),

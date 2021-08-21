@@ -217,7 +217,7 @@ export default function NavMenu() {
                 color="inherit"
               >
                 <Avatar
-                  alt={user.userName}
+                  alt={user.user.userName}
                   src="https://scontent-hkt1-2.xx.fbcdn.net/v/t1.6435-9/134156033_2858568041056016_4719682007731580660_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=2UB18F0VPOcAX-S1DzC&tn=QSwKpq4-CzbaMiO3&_nc_ht=scontent-hkt1-2.xx&oh=4c3d90cbf0e129f3fc92fcbd68848c9a&oe=612C1465"
                 />
               </IconButton>
