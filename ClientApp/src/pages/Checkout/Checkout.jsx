@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "../../components/shared/Layout";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import { Formik, Form, Field } from "formik";
+import { Box } from "@material-ui/core";
+import { TextField } from "formik-material-ui";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import * as Yup from "yup";
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -28,11 +36,11 @@ function getSteps() {
 function getStepContent(stepIndex) {
   switch (stepIndex) {
     case 0:
-      return "Contact information";
+      return <StepOne />;
     case 1:
-      return "Payment";
+      return <StepTwo />;
     case 2:
-      return "Done";
+      return <StepThree />;
     default:
       return "Unknown stepIndex";
   }
@@ -64,17 +72,11 @@ const Checkout = () => {
         </Stepper>
         <div>
           {activeStep === steps.length ? (
-            <div>
-              <Typography className={classes.instructions}>
-                All steps completed
-              </Typography>
-            </div>
+            <div className="text-center text-success">Success</div>
           ) : (
-            <div>
-              <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
-              </Typography>
-              <div>
+            <div className="d-flex flex-column align-items-center justify-content-center">
+              <div>{getStepContent(activeStep)}</div>
+              <div className="mt-3">
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
@@ -99,3 +101,92 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+export const StepOne = () => {
+  const initialValues = {
+    fullName: "",
+    address: "",
+    phoneNumber: "",
+    email: "",
+  };
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email address").required("Required"),
+  });
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(async () => {
+          setSubmitting(false);
+          console.log("Done");
+        }, 500);
+      }}
+    >
+      {({ submitForm, isSubmitting }) => (
+        <Form>
+          <Box margin={1}>
+            <Field
+              component={TextField}
+              label="Fullname"
+              name="fullName"
+              variant="outlined"
+            />
+          </Box>
+          <Box margin={1}>
+            <Field
+              component={TextField}
+              label="Address"
+              name="address"
+              variant="outlined"
+            />
+          </Box>
+          <Box margin={1}>
+            <Field
+              component={TextField}
+              name="email"
+              type="email"
+              label="Email"
+              variant="outlined"
+            />
+          </Box>
+          <Box margin={1}>
+            <Field
+              component={TextField}
+              label="Phone Number"
+              name="phoneNumber"
+              variant="outlined"
+            />
+          </Box>
+        </Form>
+      )}
+    </Formik>
+  );
+};
+
+export const StepTwo = () => {
+  const [value, setValue] = useState("COD");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  return (
+    <FormControl component="fieldset">
+      <FormLabel component="legend">Choose payment methods</FormLabel>
+      <RadioGroup
+        aria-label="Payment methods"
+        name="paymentMethods"
+        value={value}
+        onChange={handleChange}
+      >
+        <FormControlLabel value="COD" control={<Radio />} label="COD" />
+        <FormControlLabel value="Other" control={<Radio />} label="Other" />
+      </RadioGroup>
+    </FormControl>
+  );
+};
+
+export const StepThree = () => {
+  return <p className="text-success">Done</p>;
+};
